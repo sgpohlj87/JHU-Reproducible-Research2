@@ -2,19 +2,30 @@
 title: "RmarkdownAssign2"
 output: html_document
 ---
+#Weather events in United States and it impact.
 
+##Synopsis
+Storms and other severe weather events can cause both public health and economic problems for communities
+and municipalities. Many severe events can result in fatalities, injuries, and property damage, and preventing
+such outcomes to the extent possible is a key concern.
+This project involves exploring the U.S. National Oceanic and Atmospheric Administration's (NOAA) storm
+database. This database tracks characteristics of major storms and weather events in the United States,
+including when and where they occur, as well as estimates of any fatalities, injuries, and property damage.
+
+###The objective of the study: To explore the NOAA Storm Database and answer some basic questions about severe weather events. 
 
 ```{r eval=FALSE}
 library(dplyr)
 library(ggplot2)
 library(data.table)
+library(ggpubr)
 
 setwd("C:/Users/sgpoh/Documents")
 ```
 
 ###Read-in csv dataset from link 
 
-```{r echo=FALSE}
+```{r echo=TRUE}
 storm.url = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2"
 storm.bz2 = "storm-data.csv.bz2"
 if (! file.exists(storm.bz2)) {
@@ -212,8 +223,9 @@ Total_Harmful = ggplot(total_harmful_events, aes(x=reorder(EVTYPE2,value), y=val
 
 Mean_Harmful = ggplot(mean_harmful_events, aes(x=reorder(EVTYPE2,value), y=value, fill=harmful)) + geom_bar(stat="identity") + coord_flip() + ggtitle("Average Casualties per Event Type") + xlab("Event type") + ylab("# Casualties")
 
-Total_Harmful
-Mean_Harmful
+require(ggpubr)
+figure <- ggarrange(Total_Harmful,Mean_Harmful, ncol = 1, nrow = 2)
+figure
 
 ```
 
@@ -231,8 +243,9 @@ Total_Economic = ggplot(total_economic_cost, aes(x=reorder(EVTYPE2,value), y=val
 
 Mean_Economic = ggplot(mean_economic_cost, aes(x=reorder(EVTYPE2,value), y=value, fill=economic)) + geom_bar(stat="identity") + coord_flip() + ggtitle("Average Cost per Event Type") + xlab("Event type") + ylab("Economic Cost")
 
-Total_Economic
-Mean_Economic
+require(ggpubr)
+figure <- ggarrange(Total_Economic,Mean_Economic, ncol = 1, nrow = 2)
+figure
 
 ```
 ### Wind related events such as tornado and hurricane have the high economic consequences in terms of both absolute numbers reported, as well as the highest economic cost per event.
